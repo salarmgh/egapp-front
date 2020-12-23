@@ -1,8 +1,14 @@
+.nav {
+    height: 40px;
+}
 .sidebar {
     overflow: auto;
 }
 
-.fill {
-    min-heght: 100%;
+.fullHeight {
     height: 100%;
+}
+
+.fill {
+    height: calc(100% - 40px);
 }
