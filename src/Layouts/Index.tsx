@@ -1,112 +1,80 @@
-import React from "react";
+import { Layout, Menu, Input } from "antd";
 import {
-    Container,
-    Navbar,
-    Nav,
-    NavDropdown,
-    Form,
-    FormControl,
-    Button,
-    Row,
-    Col,
-} from "react-bootstrap";
-import styles from "./Index.module.scss";
+    AppstoreOutlined,
+    BarChartOutlined,
+    CloudOutlined,
+    ShopOutlined,
+    TeamOutlined,
+    UserOutlined,
+    UploadOutlined,
+    VideoCameraOutlined,
+} from "@ant-design/icons";
+//import ws from "../globals";
 
-function Index() {
+const { Header, Content, Footer, Sider } = Layout;
+const { TextArea, Search } = Input;
+
+const Index = () => {
+    //ws.send(
+    //    "<stream:stream to='egapp.im' xmlns='jabber:client' xmlns:stream='http://etherx.jabber.org/streams' version='1.0'>"
+    //);
     return (
-        <Container className={`${styles.fullHeight}`} fluid>
-            <Navbar className={`${styles.nav}`} bg="light" expand="lg">
-                <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
-                <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className="mr-auto">
-                        <Nav.Link href="#home">Home</Nav.Link>
-                        <Nav.Link href="#link">Link</Nav.Link>
-                        <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-                            <NavDropdown.Item href="#action/3.1">
-                                Action
-                            </NavDropdown.Item>
-                            <NavDropdown.Item href="#action/3.2">
-                                Another action
-                            </NavDropdown.Item>
-                            <NavDropdown.Item href="#action/3.3">
-                                Something
-                            </NavDropdown.Item>
-                            <NavDropdown.Divider />
-                            <NavDropdown.Item href="#action/3.4">
-                                Separated link
-                            </NavDropdown.Item>
-                        </NavDropdown>
-                    </Nav>
-                    <Form inline>
-                        <FormControl
-                            type="text"
-                            placeholder="Search"
-                            className="mr-sm-2"
+        <Layout>
+            <Sider
+                style={{
+                    overflow: "auto",
+                    height: "100vh",
+                    position: "fixed",
+                    left: 0,
+                }}
+            >
+                <div className="logo" />
+                <Menu theme="dark" mode="inline" defaultSelectedKeys={["4"]}>
+                    <Menu.Item key="1" icon={<UserOutlined />}>
+                        nav 1
+                    </Menu.Item>
+                    <Menu.Item key="2" icon={<VideoCameraOutlined />}>
+                        nav 2
+                    </Menu.Item>
+                    <Menu.Item key="3" icon={<UploadOutlined />}>
+                        nav 3
+                    </Menu.Item>
+                    <Menu.Item key="4" icon={<BarChartOutlined />}>
+                        nav 4
+                    </Menu.Item>
+                    <Menu.Item key="5" icon={<CloudOutlined />}>
+                        nav 5
+                    </Menu.Item>
+                    <Menu.Item key="6" icon={<AppstoreOutlined />}>
+                        nav 6
+                    </Menu.Item>
+                    <Menu.Item key="7" icon={<TeamOutlined />}>
+                        nav 7
+                    </Menu.Item>
+                    <Menu.Item key="8" icon={<ShopOutlined />}>
+                        nav 8
+                    </Menu.Item>
+                </Menu>
+            </Sider>
+            <Layout className="site-layout" style={{ marginLeft: 200 }}>
+                <Header
+                    className="site-layout-background"
+                    style={{ padding: 0 }}
+                />
+                <Content style={{ margin: "24px 16px 0", overflow: "initial" }}>
+                    <div
+                        className="site-layout-background"
+                        style={{ padding: 24, textAlign: "center" }}
+                    >
+                        <TextArea
+                            placeholder="input search text"
+                            size="large"
                         />
-                        <Button variant="outline-success">Search</Button>
-                    </Form>
-                </Navbar.Collapse>
-            </Navbar>
-            <Row className={`${styles.fill}`}>
-                <Col className={`${styles.fullHeight}`} sm={2}>
-                    <ul>
-                        <li>Channels</li>
-                        <a href="#">
-                            <li>Salar Moghaddam</li>
-                        </a>
-                        <a href="#">
-                            <li>Salar Moghaddam</li>
-                        </a>
-                        <a href="#">
-                            <li>Salar Moghaddam</li>
-                        </a>
-                        <a href="#">
-                            <li>Salar Moghaddam</li>
-                        </a>
-                        <a href="#">
-                            <li>Salar Moghaddam</li>
-                        </a>
-                        <a href="#">
-                            <li>Salar Moghaddam</li>
-                        </a>
-                        <a href="#">
-                            <li>Salar Moghaddam</li>
-                        </a>
-                        <a href="#">
-                            <li>Salar Moghaddam</li>
-                        </a>
-                        <li>Directs</li>
-                        <a href="#">
-                            <li>Salar Moghaddam</li>
-                        </a>
-                        <a href="#">
-                            <li>Salar Moghaddam</li>
-                        </a>
-                        <a href="#">
-                            <li>Salar Moghaddam</li>
-                        </a>
-                        <a href="#">
-                            <li>Salar Moghaddam</li>
-                        </a>
-                        <a href="#">
-                            <li>Salar Moghaddam</li>
-                        </a>
-                        <a href="#">
-                            <li>Salar Moghaddam</li>
-                        </a>
-                        <a href="#">
-                            <li>Salar Moghaddam</li>
-                        </a>
-                        <a href="#">
-                            <li>Salar Moghaddam</li>
-                        </a>
-                    </ul>
-                </Col>
-                <Col>2 of 2</Col>
-            </Row>
-        </Container>
+                    </div>
+                </Content>
+            </Layout>
+        </Layout>
     );
-}
+};
 
 export default Index;
