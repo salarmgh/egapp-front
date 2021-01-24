@@ -1,4 +1,4 @@
-import { Layout, Menu, Input } from "antd";
+import { Layout, Menu } from "antd";
 import {
     AppstoreOutlined,
     BarChartOutlined,
@@ -9,15 +9,12 @@ import {
     UploadOutlined,
     VideoCameraOutlined,
 } from "@ant-design/icons";
-//import ws from "../globals";
+import { MessageBox, Input, Button } from "react-chat-elements";
+import "react-chat-elements/dist/main.css";
 
-const { Header, Content, Footer, Sider } = Layout;
-const { TextArea, Search } = Input;
+const { Header, Content, Sider } = Layout;
 
 const Index = () => {
-    //ws.send(
-    //    "<stream:stream to='egapp.im' xmlns='jabber:client' xmlns:stream='http://etherx.jabber.org/streams' version='1.0'>"
-    //);
     return (
         <Layout>
             <Sider
@@ -66,9 +63,62 @@ const Index = () => {
                         className="site-layout-background"
                         style={{ padding: 24, textAlign: "center" }}
                     >
-                        <TextArea
-                            placeholder="input search text"
-                            size="large"
+                        <MessageBox
+                            title={"MahyarAP"}
+                            titleColor={"red"}
+                            date={new Date()}
+                            forwarded={true}
+                            replyButton={true}
+                            position={"left"}
+                            text={"Hello my dear"}
+                        />
+                        <MessageBox
+                            title={"SalarMgh"}
+                            titleColor={"blue"}
+                            date={new Date()}
+                            forwarded={true}
+                            replyButton={true}
+                            position={"right"}
+                            text={"Hello my dear"}
+                            status={"read"}
+                        />
+                        <MessageBox
+                            position={"left"}
+                            type={"photo"}
+                            text={"folan.png"}
+                            data={{
+                                uri:
+                                    "https://avatars.githubusercontent.com/u/7114804?s=400&u=506cfebd27da6a879325e3181a747607f381f930&v=4",
+                                status: {
+                                    click: false,
+                                    loading: 0,
+                                },
+                            }}
+                        />
+                        <MessageBox
+                            position={"right"}
+                            type={"video"}
+                            text={"folan.mp4"}
+                            data={{
+                                uri:
+                                    "https://hajifirouz2.cdn.asset.aparat.com/aparat-video/0bf6fd627aa00638b8b806bb4c4b34ab29320523-144p.mp4",
+                                status: {
+                                    click: false,
+                                    loading: 0,
+                                },
+                            }}
+                        />
+
+                        <Input
+                            placeholder="Type here..."
+                            multiline={true}
+                            rightButtons={
+                                <Button
+                                    color="white"
+                                    backgroundColor="black"
+                                    text="Send"
+                                />
+                            }
                         />
                     </div>
                 </Content>
