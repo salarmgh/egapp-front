@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { Form, Input, Button, Checkbox, Card, Row, Col } from "antd";
 import { Redirect } from "react-router-dom";
+const { client, xml } = require("@xmpp/client");
+const debug = require("@xmpp/debug");
 
 //import ws from "../globals";
 
 const Login = () => {
     const [loginState, setLoginState] = useState(false);
-    const { client, xml, jid } = require("@xmpp/client");
-    const debug = require("@xmpp/debug");
     //ws.onmessage = function (event) {
     //    console.log(`[message] Data received from server: ${event.data}`);
     //};
@@ -16,52 +16,48 @@ const Login = () => {
         console.log("Success:", values);
     };
 
-    const onFinishFailed = (errorInfo: any) => {
-        //console.log("Failed:", errorInfo);
+    const onFinishFailed = async (errorInfo: any) => {
         const xmpp = client({
-            service: "ws://172.16.143.34:8085/ws",
+            service: "ws://localhost:8085/ws",
             domain: "egapp.im",
-            username: "mahyar",
+            username: "salar",
             password: "123",
         });
 
-        debug(xmpp, true);
+        //debug(xmpp, true);
 
-        xmpp.on("error", (err) => {
-            console.error(err);
-        });
+        //xmpp.on("error", (err) => {
+        //    console.error(err);
+        //});
 
-        xmpp.on("offline", () => {
-            console.log("offline");
-        });
+        //xmpp.on("offline", () => {
+        //    console.log("offline");
+        //});
 
-        xmpp.on("stanza", async (stanza) => {
-            if (stanza.is("message")) {
-                await xmpp.send(xml("presence", { type: "unavailable" }));
-                await xmpp.stop();
-            }
-        });
+        //xmpp.on("stanza", async (stanza) => {
+        //    if (stanza.is("message")) {
+        //        await xmpp.send(xml("presence", { type: "unavailable" }));
+        //        await xmpp.stop();
+        //    }
+        //});
 
-        xmpp.on("online", async (address) => {
-            // Makes itself available
-            await xmpp.send(xml("presence"));
+        //xmpp.on("online", async (address) => {
+        //    // Makes itself available
+        //    await xmpp.send(xml("presence"));
 
-            // Sends a chat message to itself
-            const message = xml(
-                "message",
-                { type: "chat", to: address },
-                xml("body", {}, "hello world")
-            );
-            await xmpp.send(message);
-        });
+        //    // Sends a chat message to itself
+        //    const message = xml(
+        //        "message",
+        //        { type: "chat", to: address },
+        //        xml("body", {}, "hello world")
+        //    );
+        //    await xmpp.send(message);
+        //});
 
-        xmpp.start().catch(console.error);
-        //ws.send(
-        //    "<stream:stream to='egapp.im' xmlns='jabber:client' xmlns:stream='http://etherx.jabber.org/streams' version='1.0'>"
-        //);
-        //ws.send(
-        //    "<auth xmlns='urn:ietf:params:xml:ns:xmpp-sasl' mechanism='PLAIN' xmlns:ga='http://www.google.com/talk/protocol/auth' ga:client-uses-full-bind-result='true'>AHNhbGFyADEyMw==</auth>"
-        //);
+        await xmpp.start().catch(console.error);
+        await xmpp.send(
+            "<auth xmlns='urn:ietf:params:xml:ns:xmpp-sasl' mechanism='PLAIN' xmlns:ga='http://www.google.com/talk/protocol/auth' ga:client-uses-full-bind-result='true'>AHNhbGFyADEyMw==</auth>"
+        );
         //setLoginState(true);
     };
 
