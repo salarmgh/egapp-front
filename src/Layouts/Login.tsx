@@ -1,9 +1,6 @@
 import React, { useState } from "react";
 import { Form, Input, Button, Checkbox, Card, Row, Col } from "antd";
 import { Redirect } from "react-router-dom";
-const { client, xml } = require("@xmpp/client");
-const debug = require("@xmpp/debug");
-
 //import ws from "../globals";
 
 const Login = () => {
@@ -17,47 +14,61 @@ const Login = () => {
     };
 
     const onFinishFailed = async (errorInfo: any) => {
+        const { client, xml } = require("@xmpp/client");
+        const debug = require("@xmpp/debug");
         const xmpp = client({
-            service: "ws://localhost:8085/ws",
+            service: "ws://172.16.143.34:8085/ws",
             domain: "egapp.im",
-            username: "salar",
-            password: "123",
+            credentials: authenticate,
         });
 
-        //debug(xmpp, true);
+        async function authenticate(auth, mechanism) {
+            console.debug("authenticate", mechanism);
+            const credentials = {
+                username: "salar",
+                password: "123",
+            };
+            console.debug("authenticating");
+            try {
+                await auth(credentials);
+                console.debug("authenticated");
+            } catch (err) {
+                console.error(err);
+                throw err;
+            }
+        }
 
-        //xmpp.on("error", (err) => {
-        //    console.error(err);
-        //});
+        debug(xmpp, true);
 
-        //xmpp.on("offline", () => {
-        //    console.log("offline");
-        //});
+        xmpp.on("error", (err) => {
+            console.error(err);
+        });
 
-        //xmpp.on("stanza", async (stanza) => {
-        //    if (stanza.is("message")) {
-        //        await xmpp.send(xml("presence", { type: "unavailable" }));
-        //        await xmpp.stop();
-        //    }
-        //});
+        xmpp.on("offline", () => {
+            console.log("offline");
+        });
 
-        //xmpp.on("online", async (address) => {
-        //    // Makes itself available
-        //    await xmpp.send(xml("presence"));
+        xmpp.on("stanza", async (stanza) => {
+            if (stanza.is("message")) {
+                await xmpp.send(xml("presence", { type: "unavailable" }));
+                await xmpp.stop();
+            }
+        });
 
-        //    // Sends a chat message to itself
-        //    const message = xml(
-        //        "message",
-        //        { type: "chat", to: address },
-        //        xml("body", {}, "hello world")
-        //    );
-        //    await xmpp.send(message);
-        //});
+        xmpp.on("online", async (address) => {
+            // Makes itself available
+            //await xmpp.send(xml("presence"));
+            // Sends a chat message to itself
+            const message = xml(
+                "message",
+                { type: "chat", to: "mahyar@egapp.im" },
+                xml("body", {}, "hello world")
+            );
+            await xmpp.send(message);
+        });
 
-        await xmpp.start().catch(console.error);
-        await xmpp.send(
-            "<auth xmlns='urn:ietf:params:xml:ns:xmpp-sasl' mechanism='PLAIN' xmlns:ga='http://www.google.com/talk/protocol/auth' ga:client-uses-full-bind-result='true'>AHNhbGFyADEyMw==</auth>"
-        );
+        xmpp.start().catch(console.error);
+
         //setLoginState(true);
     };
 
