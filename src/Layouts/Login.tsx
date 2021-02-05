@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Form, Input, Button, Checkbox, Card, Row, Col } from "antd";
 import { Redirect } from "react-router-dom";
-//import ws from "../globals";
+import ChatService from "../WebSocket/WebSocket";
 
 const Login = () => {
     const [loginState, setLoginState] = useState(false);
@@ -9,66 +9,13 @@ const Login = () => {
     //    console.log(`[message] Data received from server: ${event.data}`);
     //};
 
-    const onFinish = (values: any) => {
-        console.log("Success:", values);
+    const onFinish = async (values: any) => {
+        await ChatService.auth(values.username, values.password);
+        await ChatService.send();
     };
 
     const onFinishFailed = async (errorInfo: any) => {
-        const { client, xml } = require("@xmpp/client");
-        const debug = require("@xmpp/debug");
-        const xmpp = client({
-            service: "ws://172.16.143.34:8085/ws",
-            domain: "egapp.im",
-            credentials: authenticate,
-        });
-
-        async function authenticate(auth, mechanism) {
-            console.debug("authenticate", mechanism);
-            const credentials = {
-                username: "salar",
-                password: "123",
-            };
-            console.debug("authenticating");
-            try {
-                await auth(credentials);
-                console.debug("authenticated");
-            } catch (err) {
-                console.error(err);
-                throw err;
-            }
-        }
-
-        debug(xmpp, true);
-
-        xmpp.on("error", (err) => {
-            console.error(err);
-        });
-
-        xmpp.on("offline", () => {
-            console.log("offline");
-        });
-
-        xmpp.on("stanza", async (stanza) => {
-            if (stanza.is("message")) {
-                await xmpp.send(xml("presence", { type: "unavailable" }));
-                await xmpp.stop();
-            }
-        });
-
-        xmpp.on("online", async (address) => {
-            // Makes itself available
-            //await xmpp.send(xml("presence"));
-            // Sends a chat message to itself
-            const message = xml(
-                "message",
-                { type: "chat", to: "mahyar@egapp.im" },
-                xml("body", {}, "hello world")
-            );
-            await xmpp.send(message);
-        });
-
-        xmpp.start().catch(console.error);
-
+        console.log("Bad input");
         //setLoginState(true);
     };
 
